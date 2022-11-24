@@ -1,6 +1,6 @@
 module Main (main) where
 
-import System.IO
+import IO
 import Types
 import Fetch
 import Parse
