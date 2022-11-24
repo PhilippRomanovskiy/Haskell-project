@@ -1,4 +1,4 @@
-# Revision history for Haskell-project
+# Revision history for src
 
 ## 0.1.0.0 -- YYYY-mm-dd
 

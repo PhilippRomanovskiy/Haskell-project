@@ -1,74 +1,36 @@
-cabal-version: 1.12
+cabal-version:      2.4
+name:               Haskell-project
+version:            0.1.0.0
 
--- This file has been generated from package.yaml by hpack version 0.35.0.
---
--- see: https://github.com/sol/hpack
+-- A short (one-line) description of the package.
+-- synopsis:
 
-name:           Haskell-project
-version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/Haskell-project#readme>
-homepage:       https://github.com/githubuser/Haskell-project#readme
-bug-reports:    https://github.com/githubuser/Haskell-project/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2022 Author name here
-license:        BSD3
-license-file:   LICENSE
-build-type:     Simple
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+-- license:
+author:             PhilippRomanovskiy
+maintainer:         philippromanovskiy@gmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
 extra-source-files:
-    README.md
     CHANGELOG.md
+    README.md
 
-source-repository head
-  type: git
-  location: https://github.com/githubuser/Haskell-project
+executable Haskell-project
+    main-is:          Main.hs
 
-library
-  exposed-modules:
-      Database
-      Fetch
-      Lib
-      Parse
-      Type
-  other-modules:
-      Paths_Haskell_project
-  hs-source-dirs:
-      src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
-  build-depends:
-      aeson
-    , base >=4.7 && <5
-    , http-conduit
-    , sqlite-simple
-  default-language: Haskell2010
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
 
-executable Haskell-project-exe
-  main-is: Main.hs
-  other-modules:
-      Paths_Haskell_project
-  hs-source-dirs:
-      app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      Haskell-project
-    , aeson
-    , base >=4.7 && <5
-    , http-conduit
-    , sqlite-simple
-  default-language: Haskell2010
-
-test-suite Haskell-project-test
-  type: exitcode-stdio-1.0
-  main-is: Spec.hs
-  other-modules:
-      Paths_Haskell_project
-  hs-source-dirs:
-      test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      Haskell-project
-    , aeson
-    , base >=4.7 && <5
-    , http-conduit
-    , sqlite-simple
-  default-language: Haskell2010
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:    base ^>=4.16.3.0
+    hs-source-dirs:   app
+    default-language: Haskell2010
