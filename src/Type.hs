@@ -1,3 +1,0 @@
-module Type (
-    download
-) where

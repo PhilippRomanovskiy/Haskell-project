@@ -1,14 +1,57 @@
-module Fetch (
-    download
-) where
+{-# LANGUAGE OverloadedStrings #-}
+-- This file will make the connection to the twitter API and call various end points to fecth the data requested
 
-import qualified Data.ByteString.Lazy.Char8 as L8
+module Fetch (searchTweetsByKeyWord) where
+
+import Control.Exception (try)
+import Data.Aeson (FromJSON, Value, encode)
+import Data.ByteString (ByteString)
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Lazy.Char8 as S8
+import Data.Char (isDigit, isLetter)
+import qualified Data.Text as DT
+import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Simple
+import System.Exit (exitFailure)
+-- import Data.ByteString.Char8 as S8
 
-type URL = String
+--  Bearer token used to connect to Twitter API V2
+bearerToken ::
+  ByteString
+bearerToken = "Bearer AAAAAAAAAAAAAAAAAAAAALkQjwEAAAAAYzoaAxoOqmBG8RZOxGIsXMU3l9g%3DhNsDTdFbb3SGglEV6ofgoXdi8MhFk1I3cjSMF8gTxePz1tBssc"
 
-download :: URL -> IO L8.ByteString
-download url = do
-    request <- parseRequest url
-    response <- httpLBS request
-    return $ getResponseBody response
+-- |This function allows a user to enter a keyword they want to search for in Tweets made by users.
+-- The API is called, and finds the most recent 10 tweets that have been made which contain the key word. It then submits these 10 records to the DB. 
+-- The function also stores the key word search term the user has entered which resulted in the records. 
+searchTweetsByKeyWord ::
+  [Char] ->  IO S8.ByteString
+searchTweetsByKeyWord query = do
+  case query of
+    "" -> do
+      Prelude.putStrLn "Enter a key word"
+      exitFailure
+      return "Err"
+    otherwise -> do
+      let firstWord = Prelude.head query
+      let first' = case firstWord of
+            '#' -> "%23"
+            otherwise -> [firstWord]
+      let queryParams = first' ++ Prelude.tail query
+      let addParams = " lang:en &expansions=author_id&tweet.fields=created_at"
+      let slug = queryParams ++ addParams
+      request' <- parseRequest $ "GET https://api.twitter.com/2/tweets/search/recent?query=" ++ slug
+      let request =
+            addRequestHeader "Authorization" bearerToken $
+              setRequestSecure True $
+                setRequestPort
+                  443
+                  request'
+      response <- httpLBS request
+      let apiStatCode = getResponseStatusCode response
+      case apiStatCode of
+        200 -> do
+          return $ getResponseBody response
+        otherwise -> do
+          Prelude.putStrLn "Sorry, invalid request sent"
+          exitFailure
+          return "Err"
