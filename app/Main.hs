@@ -55,6 +55,7 @@ main = do
       findTweets conn
       main
     6 -> do
-      exitSuccess
+     print "Hope you've enjoyed using the app!"
+     exitSuccess
     _ -> do
       exitFailure

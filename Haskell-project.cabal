@@ -6,13 +6,21 @@ cabal-version: 1.12
 
 name:           haskell-project
 version:        0.1.0.0
+homepage:       https://github.com/PhilippRomanovskiy/Haskell-project#readme
+bug-reports:    https://github.com/PhilippRomanovskiy/Haskell-project/issues
+author:         Raees Qaisir
 maintainer:     r.w.qaisir@se22.qmul.ac.uk
+copyright:      2022 Raees Qaisir
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
     CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/PhilippRomanovskiy/Haskell-project
 
 library
   exposed-modules:

@@ -34,9 +34,9 @@ initialiseDB = do
   execute_
     conn
     "CREATE TABLE IF NOT EXISTS tweets (\
-    \tweet_id VARCHAR(20) PRIMARY KEY,\
-    \user_id VARCHAR(20),\
-    \tweeted_at VARCHAR(40) NULL, \
+    \tweet_id VARCHAR(50) PRIMARY KEY,\
+    \user_id VARCHAR(50),\
+    \tweeted_at VARCHAR(50) NULL, \
     \contents VARCHAR(250)  NULL, \
     \user_input VARCHAR(250) NULL)"
   return conn
