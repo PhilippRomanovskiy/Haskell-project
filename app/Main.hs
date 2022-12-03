@@ -20,12 +20,15 @@ packStr'' :: String -> BS.ByteString
 packStr'' = encodeUtf8 . DT.pack
 
 main = do
-  putStrLn "---------------------------------"
+  putStrLn "-----------------------------------"
   putStrLn "  Welcome to the Twitter data app, please select an option from the list below: "
-  putStrLn "  (1) Search tweets by keyword   "
-  putStrLn "  (5) Download DB to JSON        "
-  putStrLn "  (6) Quit                       "
-  putStrLn "---------------------------------"
+  putStrLn "  (1) Search tweets by keyword     "
+  putStrLn "  (2) Print user_id and contents   "
+  putStrLn "  (3) Search tweets by tweet_id    "
+
+  putStrLn "  (5) Download DB to JSON          "
+  putStrLn "  (6) Quit                         "
+  putStrLn "-----------------------------------"
 
   conn <- initialiseDB
   hSetBuffering stdout NoBuffering
@@ -50,12 +53,25 @@ main = do
           print "Saving to DB..."
           submitMultipleTweet conn input output_tweets
           main
+
+    2 -> do
+      print "User_id and Contents"
+      printIdAndContents conn
+      main    
+
+    3 -> do
+      print "Find tweet by ID, please input tweet_id"
+      putStr "tweet_id: "
+      hFlush stdout
+      input <- getLine
+      -- findTweetById conn input
+      main
+
     5 -> do
       print "Saving tweet data to ExportedTweets.json"
       findTweets conn
       main
-    6 -> do
-     print "Hope you've enjoyed using the app!"
-     exitSuccess
+
     _ -> do
+      print "Thank you"
       exitFailure

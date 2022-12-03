@@ -3,10 +3,11 @@
 -- This file will transofrm the data fetched from the API call into types which haskell can interpret.
 module Types
   ( Error (..),
-    OriginalTweet (..),
+    RawTweets (..),
     Tweet (..),
     Tweets (..),
     TweetTable (..),
+    TweetIdAndContents (..),
   )
 where
 
@@ -20,8 +21,8 @@ data Error = Error
   }
   deriving (Eq, Show, Generic)
 
-newtype OriginalTweet = OriginalTweet
-  { original_tweet_data :: Tweet
+newtype RawTweets = RawTweets
+  { raw_tweet_data :: Tweet
   }
   deriving (Eq, Show, Generic)
 
@@ -47,5 +48,11 @@ data TweetTable = TweetTable
     db_tweeted_at :: Maybe String,
     db_contents :: Maybe String,
     db_user_input :: Maybe String
+  }
+  deriving (Eq, Show, Generic)
+
+data TweetIdAndContents = TweetIdAndContents
+  { tweet_ids :: String,
+    tweet_contents :: Maybe String
   }
   deriving (Eq, Show, Generic)

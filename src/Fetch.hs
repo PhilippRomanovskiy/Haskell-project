@@ -8,6 +8,7 @@ import Data.Aeson (FromJSON, Value, encode)
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy.Char8 as S8
+import Data.Char (isDigit, isLetter)
 import qualified Data.Text as DT
 import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Simple
