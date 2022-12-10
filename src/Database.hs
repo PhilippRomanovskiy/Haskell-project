@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 -- |  This file contains functionality which will initialise the DB, create the tables, write data to the DB and read data back. 
-module Database (initialiseDB, submitSingleTweet, submitMultipleTweet, findTweets, printIdAndContents, findTweetById) where
+module Database (initialiseDB, submitSingleTweet, submitMultipleTweet, findTweets, printIdAndContents, findTweetById, findTweetBytime) where
 
 import Control.Applicative
 import Data.Aeson
@@ -82,5 +82,13 @@ findTweetById ::
 findTweetById conn id = do
   fetchTweets <- queryNamed conn "SELECT * FROM tweets where tweet_id = :id" [":id" := id] :: IO [TweetTable]
   let results = DAT.encodeToLazyText fetchTweets
-  print fetchTweets
+  print results
   -- I.writeFile "tweets.json" results
+
+findTweetBytime ::
+  Connection -> String -> IO ()
+findTweetBytime conn time = do
+  let searchtime = "%" ++ time ++ "%"
+  fetchTweets <- queryNamed conn "SELECT * FROM tweets where tweeted_at like :time" [":time" := searchtime] :: IO [TweetTable]
+  let results = DAT.encodeToLazyText fetchTweets
+  print results

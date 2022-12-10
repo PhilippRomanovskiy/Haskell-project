@@ -25,8 +25,9 @@ main = do
   putStrLn "  (1) Search tweets by keyword     "
   putStrLn "  (2) Print user_id and contents   "
   putStrLn "  (3) Search tweets by tweet_id    "
-  putStrLn "  (4) Download DB to JSON          "
-  putStrLn "  (5) Quit                         "
+  putStrLn "  (4) Search tweets by time    "
+  putStrLn "  (5) Download DB to JSON          "
+  putStrLn "  (6) Quit                         "
   putStrLn "-----------------------------------"
 
   conn <- initialiseDB
@@ -68,11 +69,19 @@ main = do
       main
 
     4 -> do
+      print "Find tweet by time, please input time"
+      putStr "time: "
+      hFlush stdout
+      input <- getLine
+      findTweetBytime conn input
+      main
+
+    5 -> do
       print "Saving tweet data to ExportedTweets.json"
       findTweets conn
       main
 
-    5 -> do
+    6 -> do
       print "Hope you've enjoyed using the app!"
       exitFailure
 
