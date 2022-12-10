@@ -25,7 +25,7 @@ main = do
   putStrLn "  (1) Search tweets by keyword     "
   putStrLn "  (2) Print user_id and contents   "
   putStrLn "  (3) Search tweets by tweet_id    "
-  putStrLn "  (4) Search tweets by time    "
+  putStrLn "  (4) Search tweets by time        "
   putStrLn "  (5) Download DB to JSON          "
   putStrLn "  (6) Quit                         "
   putStrLn "-----------------------------------"
