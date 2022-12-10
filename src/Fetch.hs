@@ -1,6 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
--- This file will make the connection to the twitter API and call various end points to fecth the data requested
-
+-- | This file will make the connection to the twitter API and call various end points to fecth the data requested
 module Fetch (searchTweetsByKeyWord) where
 
 import Control.Exception (try)
@@ -15,7 +14,7 @@ import Network.HTTP.Simple
 import System.Exit (exitFailure)
 -- import Data.ByteString.Char8 as S8
 
---  Bearer token used to connect to Twitter API V2
+--  Bearer token for Twitter API V2 connection
 bearerToken ::
   ByteString
 bearerToken = "Bearer AAAAAAAAAAAAAAAAAAAAALkQjwEAAAAAYzoaAxoOqmBG8RZOxGIsXMU3l9g%3DhNsDTdFbb3SGglEV6ofgoXdi8MhFk1I3cjSMF8gTxePz1tBssc"

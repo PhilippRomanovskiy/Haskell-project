@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
--- This file will transofrm the data fetched from the API call into types which haskell can interpret.
+-- | This file will transofrm the data fetched from the API call into types which haskell can interpret.
 module Types
   ( Error (..),
     OriginalTweets (..),

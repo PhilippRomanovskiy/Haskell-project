@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
---  This file contains functionality which will initialise the DB, create the tables, write data to the DB and read data back. 
+-- |  This file contains functionality which will initialise the DB, create the tables, write data to the DB and read data back. 
 module Database (initialiseDB, submitSingleTweet, submitMultipleTweet, findTweets, printIdAndContents, findTweetById) where
 
 import Control.Applicative
@@ -34,7 +34,7 @@ instance FromRow TweetTable where
 instance FromRow TweetIdAndContents where
   fromRow = TweetIdAndContents <$> field <*> field
 
---  Initilise DB and create tables
+-- |  Initilise DB connection and create table
 initialiseDB :: IO Connection
 initialiseDB = do
   conn <- open "twitterDB.sqlite"
@@ -48,18 +48,19 @@ initialiseDB = do
     \user_input VARCHAR(250) NULL)"
   return conn
 
+-- | inserts a tweet into the tweet table
 submitSingleTweet ::
   Connection ->  [Char] ->  Tweet ->  IO ()
 submitSingleTweet conn input aTweet = do
   print "Inserting record .." 
   execute conn "INSERT INTO tweets (tweet_id,user_id,tweeted_at, contents, user_input) VALUES (?,?,?,?,?)" (tweet_id aTweet, user_id aTweet, tweeted_at aTweet, contents aTweet, input)
 
--- | Calls submitSingleTweet recursively for each item in list
+-- | calls submitSingleTweet recursively for each item in list
 submitMultipleTweet ::
   Connection ->  [Char] ->  [Tweet] ->  IO ()
 submitMultipleTweet conn input tweets = mapM_ (submitSingleTweet conn input) tweets
 
---  exports results from tweets table
+-- | exports results from tweets table
 findTweets ::
   Connection ->  IO ()
 findTweets conn = do
@@ -67,7 +68,7 @@ findTweets conn = do
   let results = DAT.encodeToLazyText fetchTweets
   I.writeFile "ExportedTweets.json" results
 
---  print tweet_id and contents
+-- |  print tweet_id and contents
 printIdAndContents ::
   Connection ->  IO ()
 printIdAndContents conn = do
@@ -75,7 +76,7 @@ printIdAndContents conn = do
   let results = DAT.encodeToLazyText fetchTweets
   print results
 
---  print tweet by tweet_id
+-- | print tweet to screen by tweet_id
 findTweetById ::
   Connection -> String -> IO ()
 findTweetById conn id = do

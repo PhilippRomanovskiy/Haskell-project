@@ -1,6 +1,6 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
--- This file will transofrm the data fetched from the API call in a way which haskell can
+-- | This file will transofrm the data fetched from the API call in a way which haskell can
 module Parse
   ( parseDataTweet,
     parsingSingleTweet,
@@ -21,35 +21,34 @@ import Distribution.Simple (License (BSD2))
 import GHC.Generics
 import Types
 
---  Renames the field in the response JSON to match the variable name defined in types
+-- | Renames variables from JSON into ones defined in types
 renameFieldsUser :: [Char] -> [Char]
 renameFieldsUser "error_data" = "errors"
 renameFieldsUser "user_id" = "id"
 renameFieldsUser other = other
 
--- apply the above field label modiefier as option
+-- |apply the above field label modiefier as option
 customOptionsUser :: Options
 customOptionsUser =
   defaultOptions
     { fieldLabelModifier = renameFieldsUser
     }
 
--- Parse Error
+-- | Parsing errors function
 instance FromJSON Error where
   parseJSON = JSON.genericParseJSON customOptionsUser
 
--- |
---  Parses the JSON file in case an error response is retuened by the function
+-- |  Parses the JSON file in case an error response is retuened by the function
 parseErr :: L8.ByteString -> Either String Error
 parseErr json = eitherDecode json :: Either String Error
 
--- Remove Extra header from twitter API in some instances
+-- | Remove Extra header from twitter API in some instances
 jsonOptions :: String -> JSON.Options
 jsonOptions prefix =
   let prefixLength = length prefix
    in JSON.defaultOptions {JSON.fieldLabelModifier = drop prefixLength >>> renameFieldsUser}
 
--- rename some of the fields in the Json
+-- | Renames variables from JSON into ones defined in types
 renameFieldsRaw "original_tweet_data" = "data"
 renameFieldsRaw "tweeted_at" = "created_at"
 renameFieldsRaw other = other
