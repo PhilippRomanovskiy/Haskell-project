@@ -80,9 +80,7 @@ printIdAndContents conn = do
 findTweetById ::
   Connection -> String -> IO ()
 findTweetById conn id = do
-  let sql = "SELECT * FROM tweets where tweet_id = " <> id
-  print sql
-  -- fetchTweets <- query_ conn (IsString  id) :: IO [TweetTable]
-  -- let results = DAT.encodeToLazyText fetchTweets
-  -- print fetchTweets
+  fetchTweets <- queryNamed conn "SELECT * FROM tweets where tweet_id = :id" [":id" := id] :: IO [TweetTable]
+  let results = DAT.encodeToLazyText fetchTweets
+  print fetchTweets
   -- I.writeFile "tweets.json" results

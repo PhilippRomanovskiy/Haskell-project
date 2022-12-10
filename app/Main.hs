@@ -63,7 +63,8 @@ main = do
       putStr "tweet_id: "
       hFlush stdout
       input <- getLine
-      -- findTweetById conn input
+      -- 
+      findTweetById conn input
       main
 
     4 -> do
