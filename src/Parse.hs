@@ -50,7 +50,7 @@ jsonOptions prefix =
    in JSON.defaultOptions {JSON.fieldLabelModifier = drop prefixLength >>> renameFieldsUser}
 
 -- rename some of the fields in the Json
-renameFieldsRaw "raw_tweet_data" = "data"
+renameFieldsRaw "original_tweet_data" = "data"
 renameFieldsRaw "tweeted_at" = "created_at"
 renameFieldsRaw other = other
 
@@ -61,12 +61,12 @@ customOptionsRaw =
     }
 
 -- Parsing Raw Tweet Data
-instance FromJSON RawTweets where
+instance FromJSON OriginalTweets where
   parseJSON = JSON.genericParseJSON customOptionsRaw
 
 --  Parses the raw data returned by the getUser funtion in fetch defined in fetch and used in main
-parseDataTweet :: L8.ByteString -> Either String RawTweets
-parseDataTweet json = eitherDecode json :: Either String RawTweets
+parseDataTweet :: L8.ByteString -> Either String OriginalTweets
+parseDataTweet json = eitherDecode json :: Either String OriginalTweets
 
 renameFieldsTweet :: [Char] -> [Char]
 renameFieldsTweet "tweets" = "data"
