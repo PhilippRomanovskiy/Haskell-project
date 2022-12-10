@@ -72,6 +72,10 @@ main = do
       findTweets conn
       main
 
-    _ -> do
+    5 -> do
       print "Hope you've enjoyed using the app!"
       exitFailure
+
+    _ -> do
+      print "Please enter a number from 1 to 5"
+      main
