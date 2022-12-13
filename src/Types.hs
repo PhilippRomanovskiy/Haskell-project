@@ -8,6 +8,7 @@ module Types
     Tweets (..),
     TweetTable (..),
     TweetIdAndContents (..),
+    UserTable (..),
   )
 where
 
@@ -54,5 +55,32 @@ data TweetTable = TweetTable
 data TweetIdAndContents = TweetIdAndContents
   { tweet_ids :: String,
     tweet_contents :: Maybe String
+  }
+  deriving (Eq, Show, Generic)
+
+
+
+data User = User
+  { 
+    id :: String,
+    username :: Maybe String,
+    created_at :: Maybe String,
+    description :: Maybe String,
+    url :: Maybe String
+  }
+  deriving (Eq, Show, Generic)
+
+newtype Users = Users
+  { users :: [User]
+  }
+  deriving (Eq, Show, Generic)
+
+data UserTable = UserTable
+  { 
+    db_id :: String,
+    db_username :: Maybe String,
+    db_created_at :: Maybe String,
+    db_description :: Maybe String,
+    db_url :: Maybe String
   }
   deriving (Eq, Show, Generic)

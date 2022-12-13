@@ -81,7 +81,7 @@ customOptionsTweet =
     { fieldLabelModifier = renameFieldsTweet
     }
 
--- Parsing  a single Tweet Data
+-- Parsing a single Tweet Data
 instance FromJSON Tweet where
   parseJSON = JSON.genericParseJSON customOptionsTweet
 

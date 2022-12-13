@@ -34,6 +34,12 @@ instance FromRow TweetTable where
 instance FromRow TweetIdAndContents where
   fromRow = TweetIdAndContents <$> field <*> field
 
+instance ToJSON UserTable where
+  toEncoding = genericToEncoding defaultOptions
+
+instance FromRow UserTable where
+  fromRow = UserTable <$> field <*> field <*> field <*> field <*> field
+
 -- |  Initilise DB connection and create table
 initialiseDB :: IO Connection
 initialiseDB = do
@@ -46,6 +52,13 @@ initialiseDB = do
     \tweeted_at VARCHAR(50) NULL, \
     \contents VARCHAR(250)  NULL, \
     \user_input VARCHAR(250) NULL)"
+    
+    -- "CREATE TABLE IF NOT EXISTS users (\
+    -- \user_id VARCHAR(50) PRIMARY KEY,\
+    -- \username VARCHAR(50) NULL, \
+    -- \created_at VARCHAR(250)  NULL, \
+    -- \description VARCHAR(250)  NULL, \
+    -- \url VARCHAR(250) NULL)"
   return conn
 
 -- | inserts a tweet into the tweet table
@@ -85,6 +98,7 @@ findTweetById conn id = do
   print results
   -- I.writeFile "tweets.json" results
 
+-- | print tweet to screen by tweeted_at
 findTweetBytime ::
   Connection -> String -> IO ()
 findTweetBytime conn time = do
