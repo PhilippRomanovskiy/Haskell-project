@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 -- |  This file contains functionality which will initialise the DB, create the tables, write data to the DB and read data back. 
-module Database (initialiseDB, submitSingleTweet, submitMultipleTweet, findTweets, printIdAndContents, findTweetById, findTweetBytime) where
+module Database (initialiseDB, submitSingleTweet, submitMultipleTweet, findTweets, printIdAndContents, findTweetById, findTweetBytime,submitUser) where
 
 import Control.Applicative
 import Data.Aeson
@@ -46,6 +46,12 @@ initialiseDB = do
     \tweeted_at VARCHAR(50) NULL, \
     \contents VARCHAR(250)  NULL, \
     \user_input VARCHAR(250) NULL)"
+  execute_
+    conn
+    "CREATE TABLE IF NOT EXISTS users (\
+    \pk_user_id VARCHAR(20) PRIMARY KEY,\
+    \user_name VARCHAR(15) NOT NULL, \
+    \name VARCHAR(15) NOT NULL)"
   return conn
 
 -- | inserts a tweet into the tweet table
@@ -92,3 +98,10 @@ findTweetBytime conn time = do
   fetchTweets <- queryNamed conn "SELECT * FROM tweets where tweeted_at like :time" [":time" := searchtime] :: IO [TweetTable]
   let results = DAT.encodeToLazyText fetchTweets
   print results
+
+submitUser ::
+  Connection ->  User ->  IO ()
+submitUser conn aUser = do
+-- | inserts a user into the user table
+  print "Adding user to database"
+  execute conn "INSERT INTO users (pk_user_id, user_name, name) VALUES (?, ?, ?)" (pk_user_id aUser, username aUser, name aUser)

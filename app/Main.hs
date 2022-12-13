@@ -26,8 +26,9 @@ main = do
   putStrLn "  (2) Print user_id and contents   "
   putStrLn "  (3) Search tweets by tweet_id    "
   putStrLn "  (4) Search tweets by time        "
-  putStrLn "  (5) Download DB to JSON          "
-  putStrLn "  (6) Quit                         "
+  putStrLn "  (5) Search twitter user by ID"
+  putStrLn "  (6) Download DB to JSON          "
+  putStrLn "  (7) Quit                         "
   putStrLn "-----------------------------------"
 
   conn <- initialiseDB
@@ -77,11 +78,32 @@ main = do
       main
 
     5 -> do
+      print "Try (2244994945)"
+      putStr "User ID: "
+      hFlush stdout
+      input <- getLine
+      print "Downloading..."
+      json <- searchUserID input
+      print "Parsing..."
+      case parseDataUser json of
+        Left err -> case parseErr json of
+          Left err -> print err
+          Right errorresult -> do
+            print "Could not find user with such ID"
+            main
+        Right result -> do
+          let output = raw_user_data result
+          let output_user = User (pk_user_id output) (username output) (name output)
+          print "Saving on DB..."
+          submitUser conn output_user
+          main
+
+    6 -> do
       print "Saving tweet data to ExportedTweets.json"
       findTweets conn
       main
 
-    6 -> do
+    7 -> do
       print "Hope you've enjoyed using the app!"
       exitFailure
 

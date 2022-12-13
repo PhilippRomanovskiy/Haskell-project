@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | This file will make the connection to the twitter API and call various end points to fecth the data requested
-module Fetch (searchTweetsByKeyWord) where
+module Fetch (searchTweetsByKeyWord,searchUserID) where
 
 import Control.Exception (try)
 import Data.Aeson (FromJSON, Value, encode)
@@ -45,6 +45,26 @@ searchTweetsByKeyWord query = do
                 setRequestPort
                   443
                   request'
+      response <- httpLBS request
+      let apiStatCode = getResponseStatusCode response
+      case apiStatCode of
+        200 -> do
+          return $ getResponseBody response
+        otherwise -> do
+          Prelude.putStrLn "Sorry, invalid request sent"
+          exitFailure
+          return "Err"
+  
+searchUserID ::
+  [Char] ->  IO S8.ByteString
+searchUserID id = do
+      request' <- parseRequest $ "GET https://api.twitter.com/2/users/" ++ id
+      let request =
+            addRequestHeader "Authorization" bearerToken $
+              setRequestSecure True $
+                  setRequestPort
+                    443
+                    request'
       response <- httpLBS request
       let apiStatCode = getResponseStatusCode response
       case apiStatCode of

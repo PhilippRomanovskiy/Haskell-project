@@ -6,6 +6,8 @@ module Parse
     parsingSingleTweet,
     parsingMultipleTweets,
     parseErr,
+    parseDataUser,
+    parseUser,
   )
 where
 
@@ -38,9 +40,25 @@ customOptionsUser =
 instance FromJSON Error where
   parseJSON = JSON.genericParseJSON customOptionsUser
 
--- |  Parses the JSON file in case an error response is retuened by the function
+-- |  Parses the JSON file in case an error response is returned by the function
 parseErr :: L8.ByteString -> Either String Error
 parseErr json = eitherDecode json :: Either String Error
+
+-- Pasrsing Raw User Data
+instance FromJSON RawUser where
+  parseJSON = JSON.genericParseJSON customOptionsUser
+
+-- | Parses the raw data returned by the getUser funtion in fetch
+parseDataUser :: L8.ByteString -> Either String RawUser
+parseDataUser json = eitherDecode json :: Either String RawUser
+
+-- Parsing User Data
+instance FromJSON User where
+  parseJSON = JSON.genericParseJSON customOptionsUser
+
+-- | Parse a single user by encodiing Json to User data Type.
+parseUser :: L8.ByteString -> Either String User
+parseUser json = eitherDecode json :: Either String User
 
 -- | Remove Extra header from twitter API in some instances
 jsonOptions :: String -> JSON.Options
