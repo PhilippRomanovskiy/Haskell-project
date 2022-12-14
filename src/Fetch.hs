@@ -54,7 +54,9 @@ searchTweetsByKeyWord query = do
           Prelude.putStrLn "Sorry, invalid request sent"
           exitFailure
           return "Err"
-  
+
+ -- |This function allows a user to enter a specific ID to search for a user on the Twitter app.
+-- The API is called, and finds the user with the matching ID. 
 searchUserID ::
   [Char] ->  IO S8.ByteString
 searchUserID id = do

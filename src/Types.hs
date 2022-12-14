@@ -8,7 +8,7 @@ module Types
     Tweets (..),
     TweetTable (..),
     TweetIdAndContents (..),
-    RawUser (..),
+    OriginalUser (..),
     User (..),
     Userdb (..),
 
@@ -18,7 +18,7 @@ where
 import Data.Aeson
 import GHC.Generics (Generic)
 
---  Check error when parsing data
+--  Custom data type. 
 data Error = Error
   { error_data :: Maybe [Object],
     meta_error :: Maybe Object
@@ -39,13 +39,12 @@ data Tweet = Tweet
   }
   deriving (Eq, Show, Generic)
 
---  List of tweets
 newtype Tweets = Tweets
   { tweets :: [Tweet]
   }
   deriving (Eq, Show, Generic)
 
---  Custom data type. Tweet Record object corresponding to the tweet data in the tweets table.
+--  Custom data type. 
 data TweetTable = TweetTable
   { db_tweet_id :: String,
     db_user_id :: String,
@@ -55,18 +54,19 @@ data TweetTable = TweetTable
   }
   deriving (Eq, Show, Generic)
 
+--  Custom data type. 
 data TweetIdAndContents = TweetIdAndContents
   { tweet_ids :: String,
     tweet_contents :: Maybe String
   }
   deriving (Eq, Show, Generic)
 
-newtype RawUser = RawUser
+newtype OriginalUser = OriginalUser
   { raw_user_data :: User
   }
   deriving (Eq, Show, Generic)
 
--- | user 
+--  Custom data type. 
 data User = User
   { pk_user_id :: String,
     username :: String,
@@ -74,6 +74,7 @@ data User = User
   }
   deriving (Eq, Show, Generic)
 
+--  Custom data type. 
 data Userdb = Userdb
   { db_pk_user_id :: String,
     db_username :: String,

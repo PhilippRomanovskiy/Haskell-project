@@ -23,7 +23,7 @@ import Distribution.Simple (License (BSD2))
 import GHC.Generics
 import Types
 
--- | Renames variables from JSON into ones defined in types
+-- | Renames variables from JSON into ones defined in types.hs
 renameFieldsUser :: [Char] -> [Char]
 renameFieldsUser "error_data" = "errors"
 renameFieldsUser "user_id" = "id"
@@ -36,35 +36,28 @@ customOptionsUser =
     { fieldLabelModifier = renameFieldsUser
     }
 
--- | Parsing errors function
 instance FromJSON Error where
   parseJSON = JSON.genericParseJSON customOptionsUser
 
--- |  Parses the JSON file in case an error response is returned by the function
+-- |  JSON returned if error occurs
 parseErr :: L8.ByteString -> Either String Error
 parseErr json = eitherDecode json :: Either String Error
 
--- Pasrsing Raw User Data
-instance FromJSON RawUser where
+-- Pasrsing orginal user data recieved from twitter
+instance FromJSON OriginalUser where
   parseJSON = JSON.genericParseJSON customOptionsUser
 
--- | Parses the raw data returned by the getUser funtion in fetch
-parseDataUser :: L8.ByteString -> Either String RawUser
-parseDataUser json = eitherDecode json :: Either String RawUser
+-- | Parsing the results retuned from the search user method
+parseDataUser :: L8.ByteString -> Either String OriginalUser
+parseDataUser json = eitherDecode json :: Either String OriginalUser
 
--- Parsing User Data
 instance FromJSON User where
   parseJSON = JSON.genericParseJSON customOptionsUser
 
--- | Parse a single user by encodiing Json to User data Type.
+-- | Parsing user data to haskell data type after encoding JSON
 parseUser :: L8.ByteString -> Either String User
 parseUser json = eitherDecode json :: Either String User
 
--- | Remove Extra header from twitter API in some instances
-jsonOptions :: String -> JSON.Options
-jsonOptions prefix =
-  let prefixLength = length prefix
-   in JSON.defaultOptions {JSON.fieldLabelModifier = drop prefixLength >>> renameFieldsUser}
 
 -- | Renames variables from JSON into ones defined in types
 renameFieldsRaw "original_tweet_data" = "data"
@@ -99,18 +92,14 @@ customOptionsTweet =
     { fieldLabelModifier = renameFieldsTweet
     }
 
--- Parsing  a single Tweet Data
 instance FromJSON Tweet where
   parseJSON = JSON.genericParseJSON customOptionsTweet
 
--- | Parse a single tweet by decoding from Json to Tweet that is returned by GetTweet function defiend in fetch and used in main
 parsingSingleTweet :: L8.ByteString -> Either String Tweet
 parsingSingleTweet json = eitherDecode json :: Either String Tweet
 
--- Parsing Array of Tweet Data
 instance FromJSON Tweets where
   parseJSON = JSON.genericParseJSON customOptionsTweet
 
--- | Parses the arrays of Tweets by decoding from Json to Tweeets returned by SearchTweets function defiend in fetch and used in main
 parsingMultipleTweets :: L8.ByteString -> Either String Tweets
 parsingMultipleTweets json = eitherDecode json :: Either String Tweets

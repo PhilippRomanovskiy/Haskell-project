@@ -1,4 +1,4 @@
---  This is the main file which will execute functions within the programme.
+-- |  This is the main file which will execute functions within the programme.
 module Main where
 
 import Control.Monad
@@ -19,6 +19,7 @@ import Types
 packStr'' :: String -> BS.ByteString
 packStr'' = encodeUtf8 . DT.pack
 
+-- |  Menu selection for functions within the app.
 main = do
   putStrLn "-----------------------------------"
   putStrLn "  Welcome to the Twitter data app, please select an option from the list below: "

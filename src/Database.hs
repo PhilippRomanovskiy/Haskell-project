@@ -21,7 +21,6 @@ import Fetch
 import Parse
 import Types
 
--- Tweetsdb
 instance ToJSON TweetTable where
   toEncoding = genericToEncoding defaultOptions
 
@@ -91,6 +90,7 @@ findTweetById conn id = do
   print results
   -- I.writeFile "tweets.json" results
 
+-- | find tweet by time
 findTweetBytime ::
   Connection -> String -> IO ()
 findTweetBytime conn time = do
@@ -99,6 +99,7 @@ findTweetBytime conn time = do
   let results = DAT.encodeToLazyText fetchTweets
   print results
 
+-- | function to add user into DB
 submitUser ::
   Connection ->  User ->  IO ()
 submitUser conn aUser = do
