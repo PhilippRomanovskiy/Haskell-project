@@ -15,17 +15,19 @@ import Control.Arrow
 import Data.Aeson
 import qualified Data.Aeson as JSON
 import Data.ByteString.Internal
+import Distribution.SPDX (LicenseId (JSON))
+import Distribution.Simple (License (BSD2))
 import qualified Data.ByteString.Lazy.Char8 as L8
 import Data.Char
 import qualified Distribution.Fields as JSON
-import Distribution.SPDX (LicenseId (JSON))
-import Distribution.Simple (License (BSD2))
 import GHC.Generics
 import Types
 
 -- | Renames variables from JSON into ones defined in types.hs
 mapUserData :: [Char] -> [Char]
 mapUserData "error_data" = "errors"
+mapUserData "meta_error" = "meta"
+mapUserData "raw_user_data" = "data"
 mapUserData "user_id" = "id"
 mapUserData other = other
 
@@ -62,7 +64,7 @@ mapTweetData :: [Char] -> [Char]
 mapTweetData "tweets" = "data"
 mapTweetData "tweet_id" = "id"
 mapTweetData "tweeted_at" = "created_at"
-mapTweetData "user_id" = "author_id"
+mapTweetData "fk_user_id" = "author_id"
 mapTweetData "contents" = "text"
 mapTweetData other = other
 

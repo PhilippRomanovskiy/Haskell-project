@@ -18,7 +18,7 @@ where
 import Data.Aeson
 import GHC.Generics (Generic)
 
---  Custom data type. 
+-- | Custom data type. 
 data Error = Error
   { error_data :: Maybe [Object],
     meta_error :: Maybe Object
@@ -30,7 +30,7 @@ newtype OriginalTweets = OriginalTweets
   }
   deriving (Eq, Show, Generic)
 
---  Custom data type. Haskell object relating to the data from twitter api 
+-- | Custom data type. Haskell object relating to the data from twitter api 
 data Tweet = Tweet
   { tweet_id :: String,
     user_id :: String,
@@ -44,7 +44,7 @@ newtype Tweets = Tweets
   }
   deriving (Eq, Show, Generic)
 
---  Custom data type. 
+-- | Custom data type. 
 data TweetTable = TweetTable
   { db_tweet_id :: String,
     db_user_id :: String,
@@ -54,7 +54,7 @@ data TweetTable = TweetTable
   }
   deriving (Eq, Show, Generic)
 
---  Custom data type. 
+-- | Custom data type. 
 data TweetIdAndContents = TweetIdAndContents
   { tweet_ids :: String,
     tweet_contents :: Maybe String
@@ -66,7 +66,7 @@ newtype OriginalUser = OriginalUser
   }
   deriving (Eq, Show, Generic)
 
---  Custom data type. 
+-- | Custom data type. 
 data User = User
   { pk_user_id :: String,
     username :: String,
@@ -74,7 +74,7 @@ data User = User
   }
   deriving (Eq, Show, Generic)
 
---  Custom data type. 
+-- | Custom data type. 
 data Userdb = Userdb
   { db_pk_user_id :: String,
     db_username :: String,

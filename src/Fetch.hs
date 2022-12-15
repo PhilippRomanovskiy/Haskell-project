@@ -7,12 +7,10 @@ import Data.Aeson (FromJSON, Value, encode)
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy.Char8 as S8
-import Data.Char (isDigit, isLetter)
 import qualified Data.Text as DT
 import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Simple
 import System.Exit (exitFailure)
--- import Data.ByteString.Char8 as S8
 
 --  Bearer token for Twitter API V2 connection
 bearerToken ::
@@ -55,7 +53,7 @@ searchTweetsByKeyWord query = do
           exitFailure
           return "Err"
 
- -- |This function allows a user to enter a specific ID to search for a user on the Twitter app.
+-- | This function allows a user to enter a specific ID to search for a user on the Twitter app.
 -- The API is called, and finds the user with the matching ID. 
 searchUserID ::
   [Char] ->  IO S8.ByteString

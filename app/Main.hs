@@ -43,7 +43,6 @@ main = do
       input <- getLine
       print "Downloading result set..."
       json <- searchTweetsByKeyWord input
-      print "Parsing result set..."
       case parsingMultipleTweets json of
         Left err -> case parseErr json of
           Left err -> print err
@@ -51,9 +50,9 @@ main = do
             print "No results found"
             main
         Right result -> do
-          let output_tweets = tweets result
+          let result_tweet = tweets result
           print "Saving to DB..."
-          submitMultipleTweet conn input output_tweets
+          submitMultipleTweet conn input result_tweet
           main
 
     2 -> do
@@ -85,18 +84,17 @@ main = do
       input <- getLine
       print "Downloading..."
       json <- searchUserID input
-      print "Parsing..."
       case parseDataUser json of
         Left err -> case parseErr json of
           Left err -> print err
           Right errorresult -> do
-            print "Could not find user with such ID"
+            print "User not found"
             main
         Right result -> do
-          let output = raw_user_data result
-          let output_user = User (pk_user_id output) (username output) (name output)
-          print "Saving on DB..."
-          submitUser conn output_user
+          let result_set = raw_user_data result
+          let result_user = User (pk_user_id result_set) (username result_set) (name result_set)
+          print "Saving..."
+          submitUser conn result_user
           main
 
     6 -> do

@@ -8,14 +8,14 @@ import Data.Aeson
 import Data.Aeson.Text as DAT
 import qualified Data.Char
 import Data.Dynamic
-import qualified Data.Text as DT
-import qualified Data.Text.Lazy.IO as I
 import Database.SQLite.Simple
 import Database.SQLite.Simple.FromRow
 import Database.SQLite.Simple.Internal
 import Database.SQLite.Simple.ToField
 import Database.SQLite.Simple.ToRow
 import Database.SQLite.Simple.Types
+import qualified Data.Text as DT
+import qualified Data.Text.Lazy.IO as I
 import GHC.Generics (Generic)
 import Fetch
 import Parse
