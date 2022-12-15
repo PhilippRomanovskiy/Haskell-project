@@ -12,7 +12,7 @@ import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Simple
 import System.Exit (exitFailure)
 
---  Bearer token for Twitter API V2 connection
+-- | Bearer token for Twitter API V2 connection
 bearerToken ::
   ByteString
 bearerToken = "Bearer AAAAAAAAAAAAAAAAAAAAALkQjwEAAAAAYzoaAxoOqmBG8RZOxGIsXMU3l9g%3DhNsDTdFbb3SGglEV6ofgoXdi8MhFk1I3cjSMF8gTxePz1tBssc"

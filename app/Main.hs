@@ -65,7 +65,6 @@ main = do
       putStr "tweet_id: "
       hFlush stdout
       input <- getLine
-      -- 
       findTweetById conn input
       main
 
@@ -84,7 +83,7 @@ main = do
       input <- getLine
       print "Downloading..."
       json <- searchUserID input
-      case parseDataUser json of
+      case parseUserData json of
         Left err -> case parseErr json of
           Left err -> print err
           Right errorresult -> do

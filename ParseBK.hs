@@ -6,7 +6,7 @@ module Parse
     parsingSingleTweet,
     parsingMultipleTweets,
     parseErr,
-    parseDataUser,
+    parseUserData,
     parseUser,
   )
 where
@@ -32,14 +32,14 @@ mapUserData "user_id" = "id"
 mapUserData other = other
 
 -- |apply the above field label modiefier as option
-customOptionsUser :: Options
-customOptionsUser =
+userOptions :: Options
+userOptions =
   defaultOptions
     { fieldLabelModifier = mapUserData
     }
 
 instance FromJSON Error where
-  parseJSON = JSON.genericParseJSON customOptionsUser
+  parseJSON = JSON.genericParseJSON userOptions
 
 -- |  JSON returned if error occurs
 parseErr :: L8.ByteString -> Either String Error
@@ -47,14 +47,14 @@ parseErr json = eitherDecode json :: Either String Error
 
 -- Pasrsing orginal user data recieved from twitter
 instance FromJSON OriginalUser where
-  parseJSON = JSON.genericParseJSON customOptionsUser
+  parseJSON = JSON.genericParseJSON userOptions
 
 -- | Parsing the results retuned from the search user method
-parseDataUser :: L8.ByteString -> Either String OriginalUser
-parseDataUser json = eitherDecode json :: Either String OriginalUser
+parseUserData :: L8.ByteString -> Either String OriginalUser
+parseUserData json = eitherDecode json :: Either String OriginalUser
 
 instance FromJSON User where
-  parseJSON = JSON.genericParseJSON customOptionsUser
+  parseJSON = JSON.genericParseJSON userOptions
 
 -- | Parsing user data to haskell data type after encoding JSON
 parseUser :: L8.ByteString -> Either String User
@@ -68,20 +68,20 @@ mapTweetData "fk_user_id" = "author_id"
 mapTweetData "contents" = "text"
 mapTweetData other = other
 
-customOptionsTweet :: Options
-customOptionsTweet =
+tweetOptions :: Options
+tweetOptions =
   defaultOptions
     { fieldLabelModifier = mapTweetData
     }
 
 instance FromJSON Tweet where
-  parseJSON = JSON.genericParseJSON customOptionsTweet
+  parseJSON = JSON.genericParseJSON tweetOptions
 
 parsingSingleTweet :: L8.ByteString -> Either String Tweet
 parsingSingleTweet json = eitherDecode json :: Either String Tweet
 
 instance FromJSON Tweets where
-  parseJSON = JSON.genericParseJSON customOptionsTweet
+  parseJSON = JSON.genericParseJSON tweetOptions
 
 parsingMultipleTweets :: L8.ByteString -> Either String Tweets
 parsingMultipleTweets json = eitherDecode json :: Either String Tweets
