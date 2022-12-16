@@ -12,10 +12,10 @@ import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Simple
 import System.Exit (exitFailure)
 
--- | Bearer token for Twitter API V2 connection
-bearerToken ::
+-- | Bearer token for Twitter API V2 connection and authentication
+bearer ::
   ByteString
-bearerToken = "Bearer AAAAAAAAAAAAAAAAAAAAALkQjwEAAAAAYzoaAxoOqmBG8RZOxGIsXMU3l9g%3DhNsDTdFbb3SGglEV6ofgoXdi8MhFk1I3cjSMF8gTxePz1tBssc"
+bearer = "Bearer AAAAAAAAAAAAAAAAAAAAALkQjwEAAAAAYzoaAxoOqmBG8RZOxGIsXMU3l9g%3DhNsDTdFbb3SGglEV6ofgoXdi8MhFk1I3cjSMF8gTxePz1tBssc"
 
 -- |This function allows a user to enter a keyword they want to search for in Tweets made by users.
 -- The API is called, and finds the most recent 10 tweets that have been made which contain the key word. It then submits these 10 records to the DB. 
@@ -38,7 +38,7 @@ searchTweetsByKeyWord query = do
       let slug = queryParams ++ addParams
       request' <- parseRequest $ "GET https://api.twitter.com/2/tweets/search/recent?query=" ++ slug
       let request =
-            addRequestHeader "Authorization" bearerToken $
+            addRequestHeader "Authorization" bearer $
               setRequestSecure True $
                 setRequestPort
                   443
@@ -58,19 +58,19 @@ searchTweetsByKeyWord query = do
 searchUserID ::
   [Char] ->  IO S8.ByteString
 searchUserID id = do
-      request' <- parseRequest $ "GET https://api.twitter.com/2/users/" ++ id
-      let request =
-            addRequestHeader "Authorization" bearerToken $
-              setRequestSecure True $
-                  setRequestPort
-                    443
-                    request'
-      response <- httpLBS request
-      let apiStatCode = getResponseStatusCode response
-      case apiStatCode of
-        200 -> do
-          return $ getResponseBody response
-        otherwise -> do
-          Prelude.putStrLn "Sorry, invalid request sent"
-          exitFailure
-          return "Err"
+  request' <- parseRequest $ "GET https://api.twitter.com/2/users/" ++ id
+  let request =
+        addRequestHeader "Authorization" bearer $
+          setRequestSecure True $
+              setRequestPort
+                443
+                request'
+  response <- httpLBS request
+  let apiStatCode = getResponseStatusCode response
+  case apiStatCode of
+    200 -> do
+      return $ getResponseBody response
+    otherwise -> do
+      Prelude.putStrLn "Sorry, invalid request sent"
+      exitFailure
+      return "Err"

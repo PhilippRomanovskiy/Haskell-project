@@ -16,19 +16,16 @@ import Fetch
 import Parse
 import Types
 
-packStr'' :: String -> BS.ByteString
-packStr'' = encodeUtf8 . DT.pack
-
 -- |  Menu selection for functions within the app.
 main = do
   putStrLn "-----------------------------------"
-  putStrLn "  Welcome to the Twitter data app, please select an option from the list below: "
+  putStrLn "  Welcome to the Twitter data app, please select an option from the list below:"
   putStrLn "  (1) Search tweets by keyword     "
   putStrLn "  (2) Print user_id and contents   "
   putStrLn "  (3) Search tweets by tweet_id    "
   putStrLn "  (4) Search tweets by time        "
-  putStrLn "  (5) Search twitter user by ID"
-  putStrLn "  (6) Download DB to JSON          "
+  putStrLn "  (5) Search twitter user by ID    "
+  putStrLn "  (6) Download saved Tweets to JSON"
   putStrLn "  (7) Quit                         "
   putStrLn "-----------------------------------"
 
@@ -83,7 +80,7 @@ main = do
       input <- getLine
       print "Downloading..."
       json <- searchUserID input
-      case parseUserData json of
+      case parsingUsersInfo json of
         Left err -> case parseErr json of
           Left err -> print err
           Right errorresult -> do

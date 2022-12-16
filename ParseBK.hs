@@ -6,8 +6,8 @@ module Parse
     parsingSingleTweet,
     parsingMultipleTweets,
     parseErr,
-    parseUserData,
-    parseUser,
+    parsingUsersInfo,
+    parsingUser,
   )
 where
 
@@ -50,15 +50,15 @@ instance FromJSON OriginalUser where
   parseJSON = JSON.genericParseJSON userOptions
 
 -- | Parsing the results retuned from the search user method
-parseUserData :: L8.ByteString -> Either String OriginalUser
-parseUserData json = eitherDecode json :: Either String OriginalUser
+parsingUsersInfo :: L8.ByteString -> Either String OriginalUser
+parsingUsersInfo json = eitherDecode json :: Either String OriginalUser
 
 instance FromJSON User where
   parseJSON = JSON.genericParseJSON userOptions
 
 -- | Parsing user data to haskell data type after encoding JSON
-parseUser :: L8.ByteString -> Either String User
-parseUser json = eitherDecode json :: Either String User
+parsingUser :: L8.ByteString -> Either String User
+parsingUser json = eitherDecode json :: Either String User
 
 mapTweetData :: [Char] -> [Char]
 mapTweetData "tweets" = "data"
